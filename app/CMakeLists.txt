@@ -21,21 +21,20 @@ set(LIB_DIR ${CMAKE_SOURCE_DIR}/src/main/cppLibs)
 # ------------------------------------------------------------------
 #  OPENCV
 # ------------------------------------------------------------------
-# Path to OpenCV: REPLACE WITH YOUR PATH!
-set(OPENCV_PATH ~/projects/android/android-face-landmarks/OpenCV-android-sdk)
+set(OPENCV_PATH ${LIB_DIR}/opencv)
 
-# Make directories for Opencv
-file(MAKE_DIRECTORY ${LIB_DIR}/opencv)
-file(MAKE_DIRECTORY ${LIB_DIR}/opencv/${ANDROID_ABI})
+# # Make directories for OpenCV
+# file(MAKE_DIRECTORY ${LIB_DIR}/opencv)
+# file(MAKE_DIRECTORY ${LIB_DIR}/opencv/${ANDROID_ABI})
 
 add_library(lib_opencv SHARED IMPORTED)
 
 # sets the location of the prebuilt opencv .so
 set_target_properties( lib_opencv
                        PROPERTIES IMPORTED_LOCATION
-                       ${LIB_DIR}/opencv/${ANDROID_ABI}/libopencv_java4.so )
+                       ${LIB_DIR}/opencv/lib/${ANDROID_ABI}/libopencv_java4.so )
 
-include_directories(${OPENCV_PATH}/sdk/native/jni/include)
+# include_directories(${OPENCV_PATH}/sdk/native/jni/include)
 
 
 # ------------------------------------------------------------------
@@ -49,10 +48,10 @@ file(MAKE_DIRECTORY ${DLIB_PATH}/include)
 file(MAKE_DIRECTORY ${DLIB_PATH}/lib)
 file(MAKE_DIRECTORY ${DLIB_PATH}/lib/${ANDROID_ABI})
 
-add_library(dlib SHARED IMPORTED)
+add_library(lib_dlib SHARED IMPORTED)
 
 # sets the location of the prebuilt dlib .so
-set_target_properties( dlib
+set_target_properties( lib_dlib
                        PROPERTIES IMPORTED_LOCATION
                        ${DLIB_PATH}/lib/${ANDROID_ABI}/libdlib.so )
 
@@ -78,6 +77,7 @@ add_library( # Sets the name of the library.
 
 target_include_directories( ${TARGET_NAME} PRIVATE
                             ${CMAKE_SOURCE_DIR}/include
+                            ${OPENCV_PATH}/include
                             ${DLIB_PATH}/include )
 
 
@@ -100,7 +100,7 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        native-lib
                        lib_opencv
-                       dlib
+                       lib_dlib
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )

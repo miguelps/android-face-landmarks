@@ -33,7 +33,7 @@ android {
             main {
                 jniLibs.srcDirs = [
                         "src/main/cppLibs/dlib/lib",
-                        "src/main/cppLibs/opencv"
+                        "src/main/cppLibs/opencv/lib"
                 ]
             }
         }

@@ -9,9 +9,6 @@ import com.dev.anzalone.luca.facelandmarks.camera.CameraPreview
 
 /** force the rect to be in bound defined by [left], [top], [right] and [bottom] */
 fun Rect.inBounds(left: Int = 0, top: Int = 0, right: Int, bottom: Int): Rect {
-    val w = this.width()
-    val h = this.height()
-
     if (this.left < left)
         this.left = left
 
