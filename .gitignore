@@ -9,6 +9,9 @@
 *.apk
 *.ap_
 
+.gitignore
+app/src/main/cppLibs*
+
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -87,7 +90,7 @@ obj/
 .idea/assetWizardSettings.xml
 
 # OS-specific files
-.DS_Store
+/*/.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
