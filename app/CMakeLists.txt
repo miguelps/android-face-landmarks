@@ -14,48 +14,32 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -std=c++11")
 # Path to project: REPLACE WITH YOUR PATH!
 set(PROJECT_PATH ~/projects/android/android-face-landmarks)
 
-# Configure import libs: MAKE SURE TO HAVE A 'cppLibs' DIRECTORY"
-set(LIB_DIR ${CMAKE_SOURCE_DIR}/src/main/cppLibs)
-
-
 # ------------------------------------------------------------------
 #  OPENCV
 # ------------------------------------------------------------------
-set(OPENCV_PATH ${LIB_DIR}/opencv)
-
-# # Make directories for OpenCV
-# file(MAKE_DIRECTORY ${LIB_DIR}/opencv)
-# file(MAKE_DIRECTORY ${LIB_DIR}/opencv/${ANDROID_ABI})
-
-add_library(lib_opencv SHARED IMPORTED)
+# Path to OpenCV: REPLACE WITH YOUR PATH!
+set(OPENCV_PATH /Users/miguel/projects/opencv/build/OpenCV-android-sdk/sdk/native)
+add_library(opencv_lib SHARED IMPORTED)
 
 # sets the location of the prebuilt opencv .so
-set_target_properties( lib_opencv
+set_target_properties( opencv_lib
                        PROPERTIES IMPORTED_LOCATION
-                       ${LIB_DIR}/opencv/lib/${ANDROID_ABI}/libopencv_java4.so )
+                       ${OPENCV_PATH}/libs/${ANDROID_ABI}/libopencv_java4.so )
 
-# include_directories(${OPENCV_PATH}/sdk/native/jni/include)
-
+include_directories(${OPENCV_PATH}/jni/include)
 
 # ------------------------------------------------------------------
 #  DLIB
 # ------------------------------------------------------------------
-set(DLIB_PATH ${LIB_DIR}/dlib)
-
-# Make directories for Dlib
-file(MAKE_DIRECTORY ${LIB_DIR}/dlib)
-file(MAKE_DIRECTORY ${DLIB_PATH}/include)
-file(MAKE_DIRECTORY ${DLIB_PATH}/lib)
-file(MAKE_DIRECTORY ${DLIB_PATH}/lib/${ANDROID_ABI})
-
-add_library(lib_dlib SHARED IMPORTED)
+set(DLIB_PATH /Users/miguel/projects/dlib-for-android)
+add_library(dlib_lib SHARED IMPORTED)
 
 # sets the location of the prebuilt dlib .so
-set_target_properties( lib_dlib
+set_target_properties( dlib_lib
                        PROPERTIES IMPORTED_LOCATION
-                       ${DLIB_PATH}/lib/${ANDROID_ABI}/libdlib.so )
+                       ${DLIB_PATH}/prebuilt/${ANDROID_ABI}/libdlib.so )
 
-include_directories(${DLIB_PATH}/include)
+include_directories(${DLIB_PATH}/dlib)
 
 # ------------------------------------------------------------------
 #  Output Library
@@ -70,16 +54,12 @@ add_library( # Sets the name of the library.
 
              # Sets the library as a shared library.
              SHARED
+             STATIC
 
              # Provides a relative path to your source file(s).
              src/main/cpp/native-lib.cpp )
 
-
-target_include_directories( ${TARGET_NAME} PRIVATE
-                            ${CMAKE_SOURCE_DIR}/include
-                            ${OPENCV_PATH}/include
-                            ${DLIB_PATH}/include )
-
+target_include_directories( ${TARGET_NAME} PRIVATE )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -99,8 +79,10 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        native-lib
-                       lib_opencv
-                       lib_dlib
+
+                       opencv_lib
+                       dlib_lib
+
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )

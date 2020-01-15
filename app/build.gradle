@@ -29,14 +29,14 @@ android {
             }
         }
 
-        sourceSets {
-            main {
-                jniLibs.srcDirs = [
-                        "src/main/cppLibs/dlib/lib",
-                        "src/main/cppLibs/opencv/lib"
-                ]
-            }
-        }
+        // sourceSets {
+        //     main {
+        //         jniLibs.srcDirs = [
+        //                 "src/main/cppLibs/dlib/lib",
+        //                 "src/main/cppLibs/opencv"
+        //         ]
+        //     }
+        // }
     }
 
     buildTypes {
