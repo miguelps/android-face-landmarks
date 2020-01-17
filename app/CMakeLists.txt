@@ -11,35 +11,31 @@ set(TARGET_NAME native-lib)
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -std=c++11")
 
-# Path to project: REPLACE WITH YOUR PATH!
-set(PROJECT_PATH ~/projects/android/android-face-landmarks)
+set(LIBS_PATH /Users/miguel/idwall/android_libs)
 
 # ------------------------------------------------------------------
 #  OPENCV
 # ------------------------------------------------------------------
-# Path to OpenCV: REPLACE WITH YOUR PATH!
-set(OPENCV_PATH /Users/miguel/projects/opencv/build/OpenCV-android-sdk/sdk/native)
 add_library(opencv_lib SHARED IMPORTED)
 
 # sets the location of the prebuilt opencv .so
 set_target_properties( opencv_lib
                        PROPERTIES IMPORTED_LOCATION
-                       ${OPENCV_PATH}/libs/${ANDROID_ABI}/libopencv_java4.so )
+                       ${LIBS_PATH}/opencv/lib/${ANDROID_ABI}/libopencv_java4.so )
 
-include_directories(${OPENCV_PATH}/jni/include)
+include_directories(${LIBS_PATH}/opencv/include)
 
 # ------------------------------------------------------------------
 #  DLIB
 # ------------------------------------------------------------------
-set(DLIB_PATH /Users/miguel/projects/dlib-for-android)
 add_library(dlib_lib SHARED IMPORTED)
 
 # sets the location of the prebuilt dlib .so
 set_target_properties( dlib_lib
                        PROPERTIES IMPORTED_LOCATION
-                       ${DLIB_PATH}/prebuilt/${ANDROID_ABI}/libdlib.so )
+                       ${LIBS_PATH}/dlib/lib/${ANDROID_ABI}/libdlib.so )
 
-include_directories(${DLIB_PATH}/dlib)
+include_directories(${LIBS_PATH}/dlib/include)
 
 # ------------------------------------------------------------------
 #  Output Library
@@ -59,7 +55,7 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              src/main/cpp/native-lib.cpp )
 
-target_include_directories( ${TARGET_NAME} PRIVATE )
+target_include_directories(${TARGET_NAME} PRIVATE)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
